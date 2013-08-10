@@ -24,7 +24,7 @@ exports.views = {
                 return;
             function siteindex(locator, timestamp) {
                 url_obj = url.parse(locator);
-                log([url_obj.hostname, locator, util.ts_to_integer(timestamp)]);
+                // log([url_obj.hostname, locator, util.ts_to_integer(timestamp)]);
                 emit([url_obj.hostname, locator], util.ts_to_integer(timestamp));
             }
 
@@ -67,7 +67,7 @@ exports.lists = {
             try {
                 while(row = getRow()) {
                     var path = encodeURI(''.concat('http://', request.headers.Host, '/urlset/', row.key[0]));
-                    log(row);
+                    // log(row);
                     send(''.concat(
                         '   <sitemap>\n', 
                         '       <loc>',path.encodeHTML(),'</loc>\n',
@@ -109,8 +109,9 @@ exports.lists = {
     },
     microdata: function (head, request) {
         var util = require("views/lib/util");
+        var lrmi = require("vendor/lrmi");
         provides('html', function(){
-            log(request);
+            // log(request);
             start( { headers: {'Content-Type': 'text/html'} } );
 
             var range = "",
@@ -149,7 +150,7 @@ exports.lists = {
 
                     try{
                         if (row.doc && row.doc.resource_data && row.doc.resource_data.items) {
-                            var result = util.expandLRMIResource(row.doc);
+                            var result = lrmi.expandLRMIResource(row.doc);
                             if (result)
                                 send(result);
                         }
@@ -169,6 +170,10 @@ exports.lists = {
 
 exports.rewrites = [
     {
+        from: "robots.txt",
+        to: "robots.txt"
+    },
+    {
         from: "microdata/:url",
         to:"_list/microdata/resource",
         query: {
@@ -187,9 +192,13 @@ exports.rewrites = [
         }
     },
     {
-        from: "",
+        from: "sitemap.xml",
         to: "_list/index/location",
         query: { group_level: "1"}
 
+    },
+    {
+        from: "",
+        to: "index.html"
     }
 ];

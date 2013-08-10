@@ -1,15 +1,24 @@
+
+
+if (typeof(exports) === "undefined") {
+  exports = {};
+}
+
+var encodeHTML = function(str) {
+    return str.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+};
 if (!String.prototype.encodeHTML) {
-  String.prototype.encodeHTML = function() {
+  String.prototype.encodeHTML = function(str) {
     return this.replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   };
 }
-
-if (typeof(exports) === "undefined") {
-  exports = {};
-}
+exports.encodeHTML = encodeHTML;
 
 var isArray = function(obj) {
     return Object.prototype.toString.call( obj ) === '[object Array]';
@@ -63,58 +72,5 @@ exports.isLRMI = function (doc) {
   return false;
 }
 
-var expandLRMIProps = function (propset) {
-  var html = ''
-  for(var itemprop in propset) {
-    for (var i=0; i<propset[itemprop].length; i++) {
-      var propval = propset[itemprop][i];
-      var head = ''.concat('<span class="property name">', itemprop, ':&nbsp;</span>');
-      if (isObject(propval)) {
-        var propobjval = expandLRMIObject(propval, itemprop);
-        if (propobjval.trim() !== "")
-          html = html.concat('<div class="property object">', head, propobjval, '</div>');
-      } else if (propval.trim() !== ""){
-        html = html.concat('<div class="property">', head, '<span itemprop="', itemprop, '">', propval.encodeHTML(), '</span></div>');
-      }
-    }
-  }
-  return html
-}
 
-var expandLRMIObject = function(clazz, itemprop) {
-  var html = '',
-    prop = '';
-  if (clazz.type && clazz.properties) {
-    var type = clazz.type[0];
-    if (itemprop) {
-      prop = ' '.concat('itemprop="', itemprop, '"');
-    }
-    else {
-      prop = ''
-    }
-    var propvalues = expandLRMIProps(clazz.properties);
-    if (propvalues.trim() !== "")
-      html = ''.concat(
-        '<div', prop, ' itemscope itemtype="', type, '">\n', 
-          propvalues,
-        '</div>\n');
-  }
-  return html;
-}
-
-var expandLRMIResource = function(doc) {
-  var html = ""
-  if (doc.resource_data && doc.resource_data.items) {
-    for (var i=0; i<doc.resource_data.items.length; i++) {
-      try {
-        html = html.concat(expandLRMIObject(doc.resource_data.items[i]), '\n');
-      } catch (error) {
-        log("problem will robinson: "+ error);
-
-      }
-    }
-  }
-  return html;
-}
-exports.expandLRMIResource = expandLRMIResource;
 

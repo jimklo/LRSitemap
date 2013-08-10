@@ -2,9 +2,11 @@
     "name": "sitemap",
     "version": "0.0.1",
     "description": "turn learning registry into a giant sitemap",
-    "modules":["lib", "views"],
+    "modules":["lib", "views", "vendor"],
     "load":"lib/app",
+    "attachments": ["index.html", "robots.txt"],
     "dependencies": {
+        "attachments":null,
         "modules":null,
         "properties": null,
         "url": null
