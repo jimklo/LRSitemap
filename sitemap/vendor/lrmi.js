@@ -48,7 +48,8 @@ var expandLRMIObject = function(clazz, itemprop) {
     var propvalues = expandLRMIProps(clazz.properties);
     if (propvalues.trim() !== "")
       html = ''.concat(
-        '<div', prop, ' itemscope itemtype="', type, '">\n', 
+        '<div class="itemscope" ', prop, ' itemscope itemtype="', type, '">\n',
+          '<div class="property type">Object Type: <span class="type">', type, '</span></div>\n',
           propvalues,
         '</div>\n');
   }

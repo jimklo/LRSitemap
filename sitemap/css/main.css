@@ -1,0 +1,22 @@
+span.property.name, div.property.type {
+    font-weight: bold;
+}
+
+.itemscope {
+    border: 2px solid black;
+}
+
+span.type {
+    color: #999;
+}
+
+div.property {
+    border-top: 1px dotted #999;
+    border-bottom: 1px dotted #999;
+    padding: 4px;
+}
+
+div.property div.property {
+    margin: 0px 20px;
+    
+}

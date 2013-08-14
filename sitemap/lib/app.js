@@ -143,6 +143,7 @@ exports.lists = {
                 '<html>',
                     '<head>',
                     '<title>Learning Resources - ', from.encodeHTML(), ' to ', until.encodeHTML(), '</title>', 
+                    '<link rel="stylesheet" href="/css/main.css" />',
                     '</head>',
                     '<body>'));
             try {
@@ -196,6 +197,10 @@ exports.rewrites = [
         to: "_list/index/location",
         query: { group_level: "1"}
 
+    },
+    {
+        from: "css/:rest",
+        to: "css/:rest"
     },
     {
         from: "",

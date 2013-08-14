@@ -4,7 +4,7 @@
     "description": "turn learning registry into a giant sitemap",
     "modules":["lib", "views", "vendor"],
     "load":"lib/app",
-    "attachments": ["index.html", "robots.txt"],
+    "attachments": ["index.html", "robots.txt", "css" ],
     "dependencies": {
         "attachments":null,
         "modules":null,
