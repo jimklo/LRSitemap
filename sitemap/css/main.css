@@ -14,9 +14,20 @@ div.property {
     border-top: 1px dotted #999;
     border-bottom: 1px dotted #999;
     padding: 4px;
+    margin: 0px 20px;
 }
 
-div.property div.property {
-    margin: 0px 20px;
-    
+
+.error {
+    border: 2px solid red;
+    padding: 4px;
+}
+
+.error > .title {
+    font-weight: bold;
+    color: #F00;
+}
+
+.error > .propname {
+    font-weight: bold;
 }

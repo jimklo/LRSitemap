@@ -65,13 +65,27 @@ exports.lists = {
                     '<?xml version="1.0" encoding="utf-8"?>\n', 
                     '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'));
             try {
+                var maxRows = 5000;
+                var rowNumber = 0;
+                var row = null;
                 while(row = getRow()) {
+                    rowNumber++;
+                    if (rowNumber == maxRows)
+                        break;
                     var path = encodeURI(''.concat('http://', request.headers.Host, '/urlset/', row.key[0]));
                     // log(row);
                     send(''.concat(
                         '   <sitemap>\n', 
                         '       <loc>',path.encodeHTML(),'</loc>\n',
                         '       <lastmod>', new Date(row.value).toISOString(),'</lastmod>\n',
+                        '   </sitemap>\n'));
+                }
+                if (row != null) {
+                    var path = encodeURI(''.concat('http://', request.headers.Host, '/sitemap.xml?startkey=', JSON.stringify(row.key)))
+                    send(''.concat(
+                        '   <sitemap>\n', 
+                        '       <loc>',path.encodeHTML(),'</loc>\n',
+                        '       <lastmod>', new Date().toISOString(),'</lastmod>\n',
                         '   </sitemap>\n'));
                 }
             } catch (Error) {
@@ -159,6 +173,7 @@ exports.lists = {
                         log('error:'+Error);
                     }
                 }
+                lrmi.sendErrors();
             } catch(Error) {
                 log(Error);
             } finally {
